@@ -1,12 +1,13 @@
-const { Given, When, Then } = require('cucumber');
-const { expect } = require('chai');
+import { Given } from "cypress-cucumber-preprocessor/steps";
+import loginPage from "../pages/login.page";
+import productPage from "../pages/product.page";
 
-// Given step
-Given('je suis sur {string}', function (url) {
-  browser.url(url);
+Given('je suis sur la page produits', () => {
+  cy.visit("https://www.saucedemo.com/");
+  loginPage.login("standard_user", "secret_sauce");
 });
 
-Given('je suis redirigé au dashboard', function () {
-  const url = browser.getUrl();
-  expect(url).to.include('/inventory.html');
+Then("la liste des produits doit être affichée", () => {
+  productPage.elements.productTitle().should('have.length.greaterThan', 0);
 });
+  
