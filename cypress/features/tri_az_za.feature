@@ -2,7 +2,6 @@ Feature: Tri des produits sur la page des produits
 
   Background: Connexion et préparation
     Given je suis sur la page des produits
-    When je me connecte avec l'utilisateur "standard_user" et le mot de passe "secret_sauce"
     Then je suis redirigé vers la page des produits
 
   Scenario: Tri Alphabétique A-Z
