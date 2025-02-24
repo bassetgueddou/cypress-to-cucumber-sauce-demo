@@ -1,34 +1,22 @@
-@CheckoutOverview
-Feature: Checkout over 
+Feature: Test de la page de paiement sur SauceDemo
+ Background: Connexion et ajout au panier
+    Given je suis sur la page de connexion
+    When je me connecte avec l'utilisateur "standard_user" et le mot de passe "secret_sauce"
+    And j'ajoute le produit "sauce-labs-backpack" au panier
+    And je vais au panier
+    And je clique sur le bouton checkout
+    And je saisis mes informations personnelles "test", "test", "75"
+    Then je suis redirigé vers la page de récapitulatif
 
-    Background:
-        Given je suis sur la page "https://www.saucedemo.com/"
-        When je saisis le username "standard_user"
-        And je saisis le password "secret_sauce"
-        And je clique sur le bouton Login
-        And je clique sur le bouton Add to card du produit "Sauce Labs Backpack"
-        And je clique sur le bouton Add to card du produit "Sauce Labs Bike Light"
-        And je clique sur le panier
-        And je clique sur le bouton Checkout
-        And je suis redirige vers la page de checkout
-        And je saisis le nom "Doe"
-        And je saisis le prenom "John"
-        And je saisis le code postal "12345"
-        And je clique sur le bouton Continue
-        Then je suis redirige vers la page de Checkout Overview
-    
-    @CheckoutOverviewProducts
-    Scenario: Je verifie la liste des produits
-        When je suis redirige vers la page de Checkout Overview
-        Then la liste des produits est affiche sur la page de checkout
+  Scenario: Vérifier que le prix total est visible
+    Then le prix total et le sous-total sont affichés
 
-    @CheckoutOverviewTotalPrice
-    Scenario: Je verifie le prix total des produits
-            When la liste des produits est affiche sur la page de checkout 
-            Then le prix total des produits est juste
+  Scenario: Finaliser l'achat
+    When je finalise la commande
+    Then je suis redirigé vers la page de confirmation
+    And un message de remerciement s'affiche
 
-    @CheckoutOverviewFinish
-    Scenario: Je clique sur le bouton Finish
-        When je clique sur le bouton Finish
-        Then je suis redirige vers la page final 
-       
+  Scenario: Annuler l'achat
+    When j'annule la commande
+    Then je suis redirigé vers la page des produits
+    And le titre de la page est "Products"
